@@ -5,12 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B4779D48-1621-4B65-AC59-EA7E5CD22B37}</ProjectGuid>
+    <ProjectGuid>{336D98FD-2CD5-4661-A7A5-0DAC4A7ACE28}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZacSharp</RootNamespace>
-    <AssemblyName>ZacSharp</AssemblyName>
+    <RootNamespace>ZacWinFormControl</RootNamespace>
+    <AssemblyName>ZacWinFormControl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,20 +38,17 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DataSet\DataTableExtensions.cs" />
-    <Compile Include="Extensions\FileSystem\DirectoryInfoExtensions.cs" />
-    <Compile Include="Extensions\FileSystem\PathExtensions.cs" />
-    <Compile Include="Utilities\DirectoryUtilities.cs" />
-    <Compile Include="Utilities\FileUtilities.cs" />
-    <Compile Include="Utilities\NetworkUtilities.cs" />
-    <Compile Include="Utilities\TextFileUtilities.cs" />
-    <Compile Include="Utilities\Validations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataGridView\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

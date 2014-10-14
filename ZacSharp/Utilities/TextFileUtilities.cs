@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace ZacSharp.Utility
+namespace ZacSharp.Utilities
 {
-    public static class TextFile
+    public static class TextFileUtilities
     {
         /// <summary>
         /// Read text file into a string and return.
@@ -32,24 +32,22 @@ namespace ZacSharp.Utility
         /// </summary>
         /// <param name="srcFilePath">the source file path you want to read.</param>
         /// <returns>string type content</returns>
-        public static string ReadTextFileWithRetry(string srcFilePath, bool waitReady = false)
+        public static string ReadTextFileWithRetry(string srcFilePath)
         {
             string output = string.Empty;
-            if (System.IO.File.Exists(srcFilePath))
-            {
-                try
-                {
-                    if (waitReady==true) while (!WaitReady(srcFilePath)) { }
-                    output = System.IO.File.ReadAllText(srcFilePath);
-                }
-                catch (IOException ioex)
-                {
-                    throw new IOException(string.Format("讀取檔案發生錯誤：{0}", ioex.Message));
-                }
-            }
-            else
+            if (!System.IO.File.Exists(srcFilePath))
             {
                 throw new System.IO.FileNotFoundException();
+            }
+
+            try
+            {
+                while (!WaitReady(srcFilePath)) { }
+                output = System.IO.File.ReadAllText(srcFilePath);
+            }
+            catch (IOException ioex)
+            {
+                throw new IOException(string.Format("讀取檔案發生錯誤：{0}", ioex.Message));
             }
             return output;
         }
@@ -61,9 +59,10 @@ namespace ZacSharp.Utility
         /// <returns></returns>
         private static bool WaitReady(string srcFilePath)
         {
-            int i = 0;
+            int attemp = 0;
+            const int attempMax = 20;
             bool bResult = false;
-            while (i < 20)//Retry 20次
+            while (attemp < attempMax)
             {
                 try
                 {
@@ -77,13 +76,13 @@ namespace ZacSharp.Utility
                         }
                     }
                 }
-                catch (FileNotFoundException ex){bResult = false;}
-                catch (IOException ex){bResult = false;}
-                catch (UnauthorizedAccessException ex){bResult = false;}
+                catch (FileNotFoundException ex) { bResult = false; throw ex; }
+                catch (IOException ex) { bResult = false; throw ex; }
+                catch (UnauthorizedAccessException ex) { bResult = false; throw ex; }
                 finally
                 {
-                    i++;
-                    System.Threading.Thread.Sleep(500);
+                    attemp++;
+                    System.Threading.Thread.Sleep(20);
                 }
             }
             return bResult;
@@ -97,10 +96,7 @@ namespace ZacSharp.Utility
         public static void WriteTextFile(string targetFilePath, string content)
         {
             System.IO.FileInfo f = new System.IO.FileInfo(targetFilePath);
-            if (!f.Directory.Exists)
-            {
-                f.Directory.CheckDirectory();
-            }
+            DirectoryUtilities.CheckDirectory(targetFilePath);
 
             if (content != string.Empty && targetFilePath != string.Empty)
                 System.IO.File.WriteAllText(targetFilePath, content);

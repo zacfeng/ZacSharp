@@ -3,20 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace ZacSharp
 {
     public static class DirectoryInfoExtensions
     {
-        /// <summary>
-        /// create directory if dirName do not exist
-        /// </summary>
-        public static void CheckDirectory(this System.IO.DirectoryInfo dirinfo)
+
+        public static bool HasSubfiles(this DirectoryInfo dinfo)
         {
-            if (!System.IO.Directory.Exists(dirinfo.FullName))
+            bool checkResult = false;
+            if (dinfo.GetFiles().Length > 0)
             {
-                System.IO.Directory.CreateDirectory(dirinfo.FullName);
+                checkResult = true;
             }
+            return checkResult;
         }
+
+        public static bool HasSubDirectory(this DirectoryInfo dinfo)
+        {
+            bool checkResult = false;
+            if (dinfo.GetDirectories("*", SearchOption.AllDirectories).Length > 0)
+            {
+                checkResult = true;
+            }
+            return checkResult;
+        }
+
+        public static bool IsEmptyDirectory(this DirectoryInfo dinfo)
+        {
+            return (HasSubfiles(dinfo) || HasSubDirectory(dinfo));
+        }
+        
+
     }
 }

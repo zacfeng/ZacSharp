@@ -1,6 +1,6 @@
 ﻿namespace ZacSharpExample
 {
-    partial class Form1
+    partial class TestForm
     {
         /// <summary>
         /// 設計工具所需的變數。

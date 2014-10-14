@@ -7,7 +7,7 @@ using System.Net.Sockets;
 
 namespace ZacSharp.Utility
 {
-    public static class Network
+    public static class NetworkUtility
     {
         public static string LocalIPAddress()
         {
